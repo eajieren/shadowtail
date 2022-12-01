@@ -1,8 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -10,22 +12,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
-//import java.io.BufferedReader;
-//import java.io.InputStreamReader;
-
-public class ShadowTailMain
-{
-	private static JFrame jf;
-	private static JPanel jPane;
-	
-	public static void main(String[] args) throws Exception
+public class ShadowTailMain extends JFrame implements KeyListener
+{	
+	public ShadowTailMain()
 	{
-		jf = new JFrame("Shadow Tail");
-		jf.setPreferredSize(new Dimension(500, 500));
-		jf.setResizable(false);
-		jf.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		jf.addWindowListener(new WindowAdapter()
+		super("Shadow Tail");
+		
+		//set customizable settings of Frame
+		setPreferredSize(new Dimension(500, 500));
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent e)
 			{
@@ -35,24 +32,63 @@ public class ShadowTailMain
 				}
          	}
         });
+		
+		//create the title label, the associated pic, and an instruction label
 		JLabel jlab = new JLabel();
 		jlab.setFont(new Font("Georgia", Font.BOLD, 30));
 		jlab.setText("Welcome to Shadow Tail!");
-		
 		JLabel sqImage = new JLabel(new ImageIcon("C:/Users/eceeh/Downloads/sqPic.jpg"));
-		jf.add(jlab, BorderLayout.NORTH);
-		jf.add(sqImage, BorderLayout.CENTER);
-		jf.pack();
-		jf.setVisible(true);
+		JLabel instrLab = new JLabel("Press ENTER to continue.");
+		instrLab.setFont(new Font("Arial", Font.ITALIC, 14));
+		
+		//add the labels and image to the JFrame
+		add(jlab, BorderLayout.NORTH);
+		add(sqImage, BorderLayout.CENTER);
+		add(instrLab, BorderLayout.SOUTH);
+		
+		//add the KeyListener, which happens to be the same object
+		addKeyListener(this);
+	}
+	
+	/********************************************************************************************/
+	//set the 3 functions to satisfy the KeyListener interface required functions
+	/********************************************************************************************/
+	public void keyPressed(KeyEvent ke){
+		//filler to satisfy the KeyListener interface
+	}
+	
+	//closes this Frame when the user presses ENTER
+	public void keyReleased(KeyEvent ke)
+	{
+		if(ke.getKeyCode() == KeyEvent.VK_ENTER)
+		{
+			System.out.println("Key Released");
+			dispose();
+		}
+	}
+	
+	public void keyTyped(KeyEvent ke){
+		//filler to satisfy the KeyListener interface
+	}
+	/********************************************************************************************/
+	
+	public static void main(String[] args)
+	{
+		displayWelcome();
 		
 		System.out.print("Welcome to ShadowTail!\nPlease enter the name of your squirrel explorer: ");
-		/*BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-	    String name = in.readLine();
-	    System.out.println("Press ENTER to continue.");
-	    in.readLine();*/
 	    
 	    journeyIntro();
 	    //menu(name);
+	}
+	
+	private static void displayWelcome()
+	{
+		ShadowTailMain stMain = new ShadowTailMain();		
+		
+		//ready the JFrame to show
+		stMain.pack();
+		stMain.setVisible(true);
 	}
 	
 	private static void journeyIntro()
