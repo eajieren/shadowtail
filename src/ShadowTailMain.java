@@ -1,17 +1,17 @@
-import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.Font;
+//import java.awt.Font;
 
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
+//import javax.swing.ImageIcon;
+//import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+//import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+//import javax.swing.JPanel;
 
 public class ShadowTailMain extends JFrame implements KeyListener
 {	
@@ -28,11 +28,12 @@ public class ShadowTailMain extends JFrame implements KeyListener
 		setPreferredSize(new Dimension(F_WIDTH, F_HEIGHT));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		ShadowTailMain stm = this;
 		addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent e)
 			{
-				if(exit())
+				if(exit(stm))
 				{
 					System.exit(0);
 				}
@@ -55,13 +56,12 @@ public class ShadowTailMain extends JFrame implements KeyListener
 			System.out.println("Key Released");
 			dispose();
 			
-			String userName = stDisplay.intro();
+			String[] userInfo = stDisplay.intro();
 			
-			System.out.println("user name = " + userName);
-			/*stDisplay.homeNestMenu();
+			stDisplay.homeNestMenu(userInfo[0], userInfo[1]);
 			add(stDisplay);
 			pack();
-			setVisible(true);*/
+			setVisible(true);
 		}
 	}
 	
@@ -111,9 +111,9 @@ public class ShadowTailMain extends JFrame implements KeyListener
 		System.out.println("\n1.Start " + sqName + "\'s adventure\n2.Sleep");
 	}
 	
-	private static boolean exit()
+	private static boolean exit(JFrame jf)
 	{
-		return JOptionPane.showConfirmDialog(null, "Are you sure that you want to quit Shadow Tail?",
+		return JOptionPane.showConfirmDialog(jf, "Are you sure that you want to quit Shadow Tail?",
 			"EXIT?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION;
 	}
 }
