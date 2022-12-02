@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,12 +15,17 @@ import javax.swing.JPanel;
 
 public class ShadowTailMain extends JFrame implements KeyListener
 {	
+	private static final int F_WIDTH = 500, F_HEIGHT = 500;
+	private ShadowTailDisplay stDisplay;
+	
 	public ShadowTailMain()
 	{
 		super("Shadow Tail");
 		
+		stDisplay = new ShadowTailDisplay();
+		
 		//set customizable settings of Frame
-		setPreferredSize(new Dimension(500, 500));
+		setPreferredSize(new Dimension(F_WIDTH, F_HEIGHT));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter()
@@ -32,22 +38,6 @@ public class ShadowTailMain extends JFrame implements KeyListener
 				}
          	}
         });
-		
-		//create the title label, the associated pic, and an instruction label
-		JLabel jlab = new JLabel();
-		jlab.setFont(new Font("Georgia", Font.BOLD, 30));
-		jlab.setText("Welcome to Shadow Tail!");
-		JLabel sqImage = new JLabel(new ImageIcon("C:/Users/eceeh/Downloads/sqPic.jpg"));
-		JLabel instrLab = new JLabel("Press ENTER to continue.");
-		instrLab.setFont(new Font("Arial", Font.ITALIC, 14));
-		
-		//add the labels and image to the JFrame
-		add(jlab, BorderLayout.NORTH);
-		add(sqImage, BorderLayout.CENTER);
-		add(instrLab, BorderLayout.SOUTH);
-		
-		//add the KeyListener, which happens to be the same object
-		addKeyListener(this);
 	}
 	
 	/********************************************************************************************/
@@ -64,6 +54,12 @@ public class ShadowTailMain extends JFrame implements KeyListener
 		{
 			System.out.println("Key Released");
 			dispose();
+			
+			//stDisplay.intro();
+			stDisplay.homeNestMenu();
+			add(stDisplay);
+			pack();
+			setVisible(true);
 		}
 	}
 	
@@ -74,7 +70,10 @@ public class ShadowTailMain extends JFrame implements KeyListener
 	
 	public static void main(String[] args)
 	{
-		displayWelcome();
+		ShadowTailMain stMain = new ShadowTailMain();
+		stMain.displayWelcome();
+		
+		
 		
 		System.out.print("Welcome to ShadowTail!\nPlease enter the name of your squirrel explorer: ");
 	    
@@ -82,13 +81,19 @@ public class ShadowTailMain extends JFrame implements KeyListener
 	    //menu(name);
 	}
 	
-	private static void displayWelcome()
+	private void displayWelcome()
 	{
-		ShadowTailMain stMain = new ShadowTailMain();		
+		//sets the in-built panel to the welcome; then adds it to the Frame
+		stDisplay.welcome();
+		//stDisplay.homeNestMenu();
+		add(stDisplay);
+		
+		//add the KeyListener, which happens to be the same object
+		addKeyListener(this);
 		
 		//ready the JFrame to show
-		stMain.pack();
-		stMain.setVisible(true);
+		pack();
+		setVisible(true);
 	}
 	
 	private static void journeyIntro()
