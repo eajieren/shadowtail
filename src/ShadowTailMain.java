@@ -55,11 +55,13 @@ public class ShadowTailMain extends JFrame implements KeyListener
 			System.out.println("Key Released");
 			dispose();
 			
-			//stDisplay.intro();
-			stDisplay.homeNestMenu();
+			String userName = stDisplay.intro();
+			
+			System.out.println("user name = " + userName);
+			/*stDisplay.homeNestMenu();
 			add(stDisplay);
 			pack();
-			setVisible(true);
+			setVisible(true);*/
 		}
 	}
 	

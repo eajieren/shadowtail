@@ -1,13 +1,19 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class ShadowTailDisplay extends JPanel
 {
@@ -70,14 +76,61 @@ public class ShadowTailDisplay extends JPanel
 		add(health, BorderLayout.CENTER);
 	}
 	
-	public void intro()
+	//introduces the user to the game's overall idea and asks the user to enter a name for his/her
+	//squirrel adventurer; then returns that name
+	public String intro()
 	{
-		removeAll();
-		String reallyLongString = "You are a fantastic fox squirrel traversing the daily dangers of Foxwood Manor, a small suburban community. Your goal is to stay alive by gathering food for winter, avoiding predators, cars, and upset gardeners and bird-watchers. You must survive through the winter, because in the spring, your uncle, Skiouros the Sage, is coming to visit and take you on a journey.";
-		reallyLongString = String.format("<html><div style=\"width:%dpx;\">%s</div></html>", F_WIDTH - 150, reallyLongString);
-		JLabel summary =  new JLabel(reallyLongString);
-		setPreferredSize(new Dimension(F_WIDTH, F_HEIGHT));
-		add(summary, BorderLayout.NORTH);
+		int iterations = 0;
+		String input = "";
+		JTextField inputSpot = new JTextField();
+		
+		do
+		{
+			if(iterations > 0)
+			{
+				JOptionPane.showMessageDialog(null, "Invalid entry. Please enter some value for a name.");
+			}
+			
+			//JDialog and its method, setModalityType, help us to hold the program until the user enters input
+			JDialog diaFrame = new JDialog();
+		
+			//set up a JLabel explaining the game
+			String premise = "You are a fantastic fox squirrel traversing the daily dangers of Foxwood Manor, a small suburban community. Your goal is to stay alive by gathering food for winter, avoiding predators, cars, and upset gardeners and bird-watchers. You must survive through the winter, because in the spring, your uncle, Skiouros the Sage, is coming to visit and take you on a journey.\n\n\nPlease enter the name of your bushy-tailed adventurer:";
+			premise = String.format("<html><div style=\"width:%dpx;\">%s</div></html>", F_WIDTH - 150, premise);
+			JLabel summary =  new JLabel(premise);
+			
+			//set up a TextField for name input
+			inputSpot = new JTextField();
+			inputSpot.setColumns(40);
+			//inputSpot.setPreferredSize(new Dimension(200, 20));
+			inputSpot.setVisible(true);
+			
+			//sets up the specifics for the JDialog frame
+			diaFrame.setSize(new Dimension(F_WIDTH, F_HEIGHT));
+			diaFrame.setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+			diaFrame.setLayout(new FlowLayout());
+			diaFrame.add(summary);
+			diaFrame.add(inputSpot);
+			
+			//set up the action-listener that will determine when the JDialog returns control of the
+			//program to the regular code-flow
+			inputSpot.addActionListener(new ActionListener(){
+		           public void actionPerformed(ActionEvent ae)
+		           {
+		              diaFrame.dispose();
+		           }
+		        });
+			
+			//upon setting the JDialog visible, it holds control of the program until it is disposed
+			//(upon user entering text and pressing ENTER)
+			diaFrame.setVisible(true);
+			
+			iterations++;
+			input = inputSpot.getText();
+		}
+		while(input.length() == 0);
+		
+		return input;
 	}
 	
 	private static void initiate()
